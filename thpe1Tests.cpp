@@ -1,0 +1,320 @@
+#define CATCH_CONFIG_MAIN
+#include "..//catch.hpp"
+#include "thpe1.h"
+
+//testing creditcontainsdig
+TEST_CASE("creditContainsDig - testing random number with letter")
+{
+    bool result;
+    string cardNum = "1A345678";
+    
+   result = creditContainsDig(cardNum);
+    REQUIRE(result == false);
+}
+
+TEST_CASE("creditContainsDig - testing random number")
+{
+    bool result;
+    string cardNum = "12345678";
+    
+   result = creditContainsDig(cardNum);
+    REQUIRE(result == true);
+}
+
+//testing card length
+TEST_CASE("creditLenGood - testing 13")
+{
+    bool result;
+    string cardNum = "1234567891234";
+    
+    result = creditLenGood(cardNum);
+    REQUIRE(result == true);
+}
+
+TEST_CASE("creditLenGood - testing invalid")
+{
+    bool result;
+    string cardNum = "1234";
+    
+    result = creditLenGood(cardNum);
+    REQUIRE(result == false);
+}
+
+//testing visa card
+TEST_CASE("visaCard - testing 13 digits")
+{
+    bool result;
+    string cardNum = "4237481637265";
+    
+    result = visaCard(cardNum);
+    REQUIRE(result == true);
+}
+
+TEST_CASE("visaCard - testing 16 digits")
+{
+    bool result;
+    string cardNum = "4237481637263455";
+    
+    result = visaCard(cardNum);
+    REQUIRE(result == true);
+}
+
+TEST_CASE("visaCard - testing invalid")
+{
+    bool result;
+    string cardNum = "5362718";
+    
+    result = visaCard(cardNum);
+    REQUIRE(result == false);
+}
+
+
+//testing american express
+TEST_CASE("americanExpress - testing valid starting with 34")
+{
+    bool result;
+    string cardNum = "345628192036253";
+    
+    result = americanExpress(cardNum);
+    REQUIRE(result == true);
+}
+
+TEST_CASE("americanExpress - testing valid starting with 37")
+{
+    bool result;
+    string cardNum = "376281920394857";
+    
+    result = americanExpress(cardNum);
+    REQUIRE(result == true);
+}
+
+TEST_CASE("americanExpress - testing invalid")
+{
+    bool result;
+    string cardNum = "53628391827464";
+    
+    result = americanExpress(cardNum);
+    REQUIRE(result == false);
+}
+
+
+//testing discover
+TEST_CASE("discover - testing valid starting with 65")
+{
+    bool result;
+    string cardNum = "6574839201928374";
+    
+    result = discover(cardNum);
+    REQUIRE(result == true);
+}
+
+TEST_CASE("discover - testing valid starting with 644")
+{
+    bool result;
+    string cardNum = "6444839201928374";
+    
+    result = discover(cardNum);
+    REQUIRE(result == true);
+}
+
+TEST_CASE("discover - testing valid starting with 646")
+{
+    bool result;
+    string cardNum = "6464839201928374";
+    
+    result = discover(cardNum);
+    REQUIRE(result == true);
+}
+
+TEST_CASE("discover - testing valid starting with 649")
+{
+    bool result;
+    string cardNum = "6494839201928374";
+    
+    result = discover(cardNum);
+    REQUIRE(result == true);
+}
+
+TEST_CASE("discover - testing valid starting with 6011")
+{
+    bool result;
+    string cardNum = "6011839201928374";
+    
+    result = discover(cardNum);
+    REQUIRE(result == true);
+}
+
+TEST_CASE("discover - testing valid starting with 622126")
+{
+    bool result;
+    string cardNum = "6221269201928374";
+    
+    result = discover(cardNum);
+    REQUIRE(result == true);
+}
+
+TEST_CASE("discover - testing valid starting with 622415")
+{
+    bool result;
+    string cardNum = "6224159201928374";
+    
+    result = discover(cardNum);
+    REQUIRE(result == true);
+}
+
+TEST_CASE("discover - testing valid starting with 622926")
+{
+    bool result;
+    string cardNum = "6229269201928374";
+    
+    result = discover(cardNum);
+    REQUIRE(result == true);
+}
+
+TEST_CASE("discover - testing invalid")
+{
+    bool result;
+    string cardNum = "6221256543879654";
+    
+    result = discover(cardNum);
+    REQUIRE(result == false);
+}
+
+//testing mastercard
+TEST_CASE("masterCard - testing invalid")
+{
+    bool result;
+    string cardNum = "1234567891827364";
+    
+    result = masterCard(cardNum);
+    REQUIRE(result == false);
+}
+
+TEST_CASE("masterCard - testing starting with 50")
+{
+    bool result;
+    string cardNum = "5012436789472637";
+    
+    result = masterCard(cardNum);
+    REQUIRE(result == true);
+}
+
+TEST_CASE("masterCard - testing starting with 52")
+{
+    bool result;
+    string cardNum = "5212436789472637";
+    
+    result = masterCard(cardNum);
+    REQUIRE(result == true);
+}
+
+TEST_CASE("masterCard - testing starting with 55")
+{
+    bool result;
+    string cardNum = "5512436789472637";
+    
+    result = masterCard(cardNum);
+    REQUIRE(result == true);
+}
+
+//testing creditLenGood
+TEST_CASE("creditLenGood - testing valid")
+{
+    bool result;
+    string cardNum = "1234567890123";
+    
+    result = creditLenGood(cardNum);
+    REQUIRE(result == true);
+}
+
+//testing cctype
+TEST_CASE("getCCType - testing american express")
+{
+    string result;
+    string cardNum = "347685940182765";
+    
+    result = getCCType(cardNum);
+    REQUIRE(result == "American Express");
+}
+
+TEST_CASE("getCCType - testing Discover")
+{
+    string result;
+    string cardNum = "6443747586912837";
+    
+    result = getCCType(cardNum);
+    REQUIRE(result == "Discover");
+}
+
+TEST_CASE("getCCType - testing Mastercard")
+{
+    string result;
+    string cardNum = "5176543627198574";
+    
+    result = getCCType(cardNum);
+    REQUIRE(result == "Mastercard");
+}
+
+TEST_CASE("getCCType - testing visa")
+{
+    string result;
+    string cardNum = "4162738472637";
+    
+    result = getCCType(cardNum);
+    REQUIRE(result == "Visa");
+}
+
+TEST_CASE("getCCType - testing invalid")
+{
+    string result;
+    string cardNum = "1234562736514253";
+    
+    result = getCCType(cardNum);
+    REQUIRE(result == "Unknown");
+}
+
+TEST_CASE("getCCType - testing invalid part 2")
+{
+    string result;
+    string cardNum = "2345678765432";
+    
+    result = getCCType(cardNum);
+    REQUIRE(result == "Unknown");
+}
+
+//testing isvalidcc
+TEST_CASE("isValidCC - testing 16 length")
+{
+    bool result;
+    string cardNum = "4716150722142577";
+    
+    result = isValidCC(cardNum);
+    REQUIRE(result == true);
+}
+
+TEST_CASE("isValidCC - testing 13 length")
+{
+    bool result;
+    string cardNum = "4456895832624";
+    
+    result = isValidCC(cardNum);
+    REQUIRE(result == true);
+}
+
+TEST_CASE("isValidCC - testing 15 length")
+{
+    bool result;
+    string cardNum = "345649595062090";
+    
+    result = isValidCC(cardNum);
+    REQUIRE(result == true);
+}
+
+TEST_CASE("isValidCC - testing invalid")
+{
+    bool result;
+    string cardNum = "4716120732149577";
+    
+    result = isValidCC(cardNum);
+    REQUIRE(result == false);
+}

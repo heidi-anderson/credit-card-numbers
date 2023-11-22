@@ -1,0 +1,429 @@
+/** **********************************************************************
+ * @file thpe1
+ ************************************************************************/
+#include "thpe1.h"
+/** **********************************************************************
+ *  @author Heidi Anderson
+ *
+ *  @par Description
+ *  through the functions americanExpress, discover, masterCard and
+ *  visaCard this function will determine what corresponding string
+ *  to return. If all of the functions return false, then this function
+ *  will return "unknown"
+ *
+ *  @param[str] cardNum
+ *              this is the credit card number. 
+ *
+ *  @returns type of card the card number is
+ *
+ *  @par Example
+ *  @verbatim
+
+    int result;
+    string cardNum = "347685940182765";
+    result = getCCType(cardNum); //result would be "American Express"
+    string cardNum = "6443747586912837";
+    result = getCCType(cardNum); //result would be "Discover"
+    string cardNum = "5176543627198574";
+    result = getCCType(cardNum); //result would be "Mastercard"
+    string cardNum = "4162738472637"; 
+    result = getCCType(cardNum);//result would be "Visa"
+    string cardNum = "2134"; 
+    result = getCCType(cardNum);//result would be "Unknown"
+
+    @endverbatim
+ ************************************************************************/
+string getCCType(string cardNum)
+{
+    
+    if(americanExpress(cardNum) == true)
+    {
+        return "American Express";
+    }
+    if(discover(cardNum) == true)
+    {
+        return "Discover";
+    }
+    if(masterCard(cardNum) == true)
+    {
+        return "Mastercard";
+    }
+    if(visaCard(cardNum) == true)
+    {
+        return "Visa";
+    }
+    else
+    {
+        return "Unknown";
+    }
+}
+
+/** **********************************************************************
+ *  @author Heidi Anderson
+ *
+ *  @par Description
+ *  this function determines whether or not the card number
+ *  is an american express card. American express cards start with
+ *  the first two digits being 34 or 37. also must be 15 digits long
+ *
+ *  @param[str] cardNum
+ *              this is the credit card number. 
+ *
+ *  @returns true or false. true being it is an american express card
+ *
+ *  @par Example
+ *  @verbatim
+
+    bool result;
+    string cardNum = "345628192036253";
+    
+    result = americanExpress(cardNum); result is True
+
+    @endverbatim
+ ************************************************************************/
+bool americanExpress(string cardNum)
+{   
+    char first = cardNum.at(0);
+    char second = cardNum.at(1);
+    int n = cardNum.size(); //n is length
+    int i; //used to determine if it only contains digits
+    
+    i = creditContainsDig(cardNum);
+    if(i == false)
+    {
+        return false;
+    }    
+    if((first == '3' && n == 15) && (second == '4' || second == '7'))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+/** **********************************************************************
+ *  @author Heidi Anderson
+ *
+ *  @par Description
+ *  this function determines whether or not the card number
+ *  is a discover card. Discover cards must start with one of
+ *  the following: 65, 644 to 649, 622126 to 622926 or 6011. must also
+ *  be 16 digits in length.
+ *
+ *  @param[str] cardNum
+ *              this is the credit card number. 
+ *
+ *  @returns true or false. true being it is a discover card
+ *
+ *  @par Example
+ *  @verbatim
+
+    bool result;
+    string cardNum = "6574839201928374";
+    
+    result = discover(cardNum); // result would be true
+
+    @endverbatim
+ ************************************************************************/
+bool discover(string cardNum)
+{
+    char first = cardNum.at(0);
+    char second = cardNum.at(1);
+    char third = cardNum.at(2);
+    char fourth = cardNum.at(3);
+    int n = cardNum.size(); //n is length
+    int i; //i is to test whether or not it contains a digit
+    int part; //this is partial which is 126-926 but as an intiger not a string
+    
+
+    string partial = cardNum.substr(3,3); //extracting from string
+    i = creditContainsDig(cardNum); //testing digits
+    part = stoi(partial);//making partial an integer for easier testing.
+    
+    if(i == false)
+    {
+        return false;
+    }    
+
+    if(n != 16)
+    {
+        return false;
+    }
+    else
+    {
+        //checking for 65
+        if(first == '6' && second == '5')
+        {
+            return true;
+        }
+        //checking for 644-649
+        if((first == '6' && second == '4') && (third >= '4'))
+        {
+            return true;
+        }
+        //checking for 6011
+        if(first == '6' && second == '0' && third == '1' && fourth == '1')
+        {
+            return true;
+        }
+        //checking for 622126 to 622926
+        if(first == '6' && second == '2' && third == '2' && (part >= 126 && part <= 926))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+}
+/** **********************************************************************
+ *  @author Heidi Anderson
+ *
+ *  @par Description
+ *  this function determines whether or not the card number
+ *  is a master card. Master cards first 2 digits must be in the range
+ *  50 to 55. and must be 16 digits long.
+ *
+ *  @param[str] cardNum
+ *              this is the credit card number. 
+ *
+ *  @returns true or false. true being it is a master card
+ *
+ *  @par Example
+ *  @verbatim
+
+    bool result;
+    string cardNum = "5012436789472637";
+    
+    result = masterCard(cardNum); //result would be true
+
+    @endverbatim
+ ************************************************************************/
+bool masterCard(string cardNum)
+{
+    char first = cardNum.at(0);
+    char second = cardNum.at(1);
+    int n = cardNum.size(); //n is length
+    int i; //used to test to make sure it only contains digits
+    
+    i = creditContainsDig(cardNum);
+    if(i == false)
+    {
+        return false;
+    }    
+    if(n == 16 && first == '5' && (second <= '5' && second >= '0'))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+/** **********************************************************************
+ *  @author Heidi Anderson
+ *
+ *  @par Description
+ *  this function determines whether or not the card number
+ *  is a visa card. all visa cards start with the number four
+ *  and must be 13 or 16 digits long.
+ *
+ *  @param[str] cardNum
+ *              this is the credit card number. 
+ *
+ *  @returns true or false. true being it is a visa card
+ *
+ *  @par Example
+ *  @verbatim
+   
+    bool result;
+    string cardNum = "4237481637265";
+    
+    result = visaCard(cardNum); //result would be true
+
+    @endverbatim
+ ************************************************************************/
+bool visaCard(string cardNum)
+{
+    char first = cardNum.at(0);
+    int n = cardNum.size();//n is length
+    int i; //used to determine if it contains only digits
+    
+    i = creditContainsDig(cardNum);
+    
+    if(i == false)
+    {
+        return false;
+    }
+    if((n == 13 || n == 16) && first == '4')
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+/** **********************************************************************
+ *  @author Heidi Anderson
+ *
+ *  @par Description
+ *  this function determines whether or not the card number only
+ *  contains digits. if anything other than a digit is in the
+ *  card number it will return false.
+ *
+ *  @param[str] cardNum
+ *              this is the credit card number. 
+ *
+ *  @returns true or false. true meaning it contains only digits
+ *
+ *  @par Example
+ *  @verbatim
+ 
+    bool result;
+    string cardNum = "12345678";
+    
+    result = creditContainsDig(cardNum); //result would be true
+    
+    string cardNum = "1234A678";
+    
+    result = creditContainsDig(cardNum); //result would be false
+
+    @endverbatim
+ ************************************************************************/
+bool creditContainsDig(string cardNum)
+{
+    int i;
+    int n = cardNum.size(); //n is length
+    
+    for(i = 0; i < n; ++i)
+    {  
+        if(!isdigit(cardNum[i]))
+        {
+            return false;
+        }
+    }
+            return true;
+}
+/** **********************************************************************
+ *  @author Heidi Anderson
+ *
+ *  @par Description
+ *  this function determines whether or not the card number length is
+ *  good. Credit card lengths must be 13, 15 or 16 digits.
+ *
+ *  @param[str] cardNum
+ *              this is the credit card number. 
+ *
+ *  @returns true or false. true meaning it is the correct length.
+ *
+ *  @par Example
+ *  @verbatim
+ 
+    bool result;
+    string cardNum = "1234567891234";
+    
+    result = creditLenGood(cardNum); //this would return true because
+                                       it is 13 digits long.
+
+    @endverbatim
+ ************************************************************************/
+bool creditLenGood(string cardNum)
+{
+    int n = cardNum.size(); //n is length
+    
+    if(n == 13 || n == 15 || n == 16)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+/** **********************************************************************
+ *  @author Heidi Anderson
+ *
+ *  @par Description
+ *  this function determines whether or not the credit card is valid.
+ *  valid credit cards must only have digits and be the correct length.
+ *  it must also pass luhn's algorithm. for 16 digits, you sum all the 
+ *  digits in the odd location. In the even location, you double the digits
+ *  then if the value is greater than 9 you must sum the individual digits.
+ *  For 13 and 15 lengths. its the opposite. You sum all the digits in the 
+ *  even location. In the odd location you double the digit and if its greater
+ *  than 9 you will sum the digits together and add this to the sum.
+ *
+ *  @param[str] cardNum
+ *              this is the credit card number. 
+ *
+ *  @returns true or false. true meaning it is valid
+ *
+ *  @par Example
+ *  @verbatim
+ 
+    bool result;
+    
+    string cardNum = "4716150722142577";
+    result = isValidCC(cardNum); //this would return true.
+
+    string cardNum = "4456895832624";
+    result = isValidCC(cardNum); //return true
+    
+    string cardNum = "345649595062090";
+    result = isValidCC(cardNum); //return true
+
+    string cardNum = "4716120732149577";
+    result = isValidCC(cardNum); //this would return false.
+    
+    @endverbatim
+ ************************************************************************/
+bool isValidCC(string cardNum)
+{
+    int n = cardNum.size();
+    int sum = 0;
+    int i, val; // loop variable and val is value of digit.
+    
+    if(creditContainsDig(cardNum) != true)
+    {
+        return false;
+    }
+    if(creditLenGood(cardNum) != true)
+    {
+        return false;
+    }
+    
+    //luhn's algorithm
+    for(i = 0; i < n; ++i)
+    {
+        val = cardNum[i] - '0';
+        
+        if(i%2 == n % 2)
+        {
+            val = 2 * val;
+            if(val > 9)
+            {
+                sum += 1 + val - 10;
+            }
+            else
+            {
+                sum += val;
+            }
+        }
+        else
+        {
+            sum += val;
+        }
+    }
+
+    if(sum % 10 == 0)
+    {   
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
